@@ -28,4 +28,12 @@ public class InputController {
         }
         return 0;
     }
+
+    public boolean checkControlFire(){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            System.out.println("FIRE!");
+            return true;
+        }
+        return false;
+    }
 }

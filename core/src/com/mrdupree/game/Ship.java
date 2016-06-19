@@ -20,7 +20,7 @@ public class Ship {
     private int ypos;
     private int width;
     private int height;
-
+    InputController input;
     public int getSpeed() {
         return speed;
     }
@@ -39,6 +39,7 @@ public class Ship {
         this.width = ShipImage.getWidth();
         this.height = ShipImage.getHeight();
         this.setSpeed(1);
+        this.input = new InputController();
     }
 
     public Texture getShipImage() {
@@ -82,9 +83,16 @@ public class Ship {
     }
 
     public void render(Batch batch){
-        InputController input = new InputController();
+
         this.setSpeed(3);//@todo for testing speed
 
+        this.shipAdjust();
+        this.fire(batch);
+
+        batch.draw(this.getShipImage(), this.getXpos(), this.getYpos());
+
+    }
+    private void shipAdjust(){
         int shipXadjust = input.checkControlX(this.getSpeed());
         int shipYadjust = input.checkControlY(this.getSpeed());
 
@@ -94,9 +102,14 @@ public class Ship {
         if( shipYadjust != 0 ) {
             this.setYpos(this.getYpos() + shipYadjust);
         }
+    }
 
-
-        batch.draw(this.getShipImage(), this.getXpos(), this.getYpos());
-
+    private void fire(Batch batch){
+        boolean fireTriggered = input.checkControlFire();
+        if(fireTriggered){
+            Texture fireshot = new Texture("shotflare1.png");
+            ShipFire shot = new ShipFire(fireshot, this.xpos + this.width/2, this.getXpos() + this.getWidth()/2, this.getYpos() + this.getHeight());
+            shot.render(batch);
+        }
     }
 }

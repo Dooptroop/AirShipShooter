@@ -2,6 +2,7 @@ package com.mrdupree.game;
 
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 /**
  * Created by mdupree on 19/06/16.
@@ -67,4 +68,10 @@ public class ShipFire {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public void render(Batch batch) {
+        int offset = this.getWidth()/2;
+        batch.draw(this.getImage(), this.getXpos() - offset, this.getYpos());
+    }
 }
+
