@@ -20,7 +20,11 @@ public class Ship {
     private int ypos;
     private int width;
     private int height;
+    private int health, armor;
+    private int weapon, weapon_dmg, firedXpos;
     InputController input;
+    private boolean firing = false;
+
     public int getSpeed() {
         return speed;
     }
@@ -40,6 +44,10 @@ public class Ship {
         this.height = ShipImage.getHeight();
         this.setSpeed(1);
         this.input = new InputController();
+        this.health = 10;
+        this.armor = 0;
+        this.weapon = 0;
+        this.weapon_dmg = 2;
     }
 
     public Texture getShipImage() {
@@ -93,6 +101,7 @@ public class Ship {
 
     }
     private void shipAdjust(){
+
         int shipXadjust = input.checkControlX(this.getSpeed());
         int shipYadjust = input.checkControlY(this.getSpeed());
 
@@ -106,10 +115,29 @@ public class Ship {
 
     private void fire(Batch batch){
         boolean fireTriggered = input.checkControlFire();
+        this.firing = true;
         if(fireTriggered){
             Texture fireshot = new Texture("shotflare1.png");
-            ShipFire shot = new ShipFire(fireshot, this.xpos + this.width/2, this.getXpos() + this.getWidth()/2, this.getYpos() + this.getHeight());
+            this.firedXpos = this.getXpos() + this.getWidth()/2;
+            ShipFire shot = new ShipFire(
+                    fireshot,
+                    this.firedXpos,//tracks the position in ShipFire Class
+                    this.firedXpos,
+                    this.getYpos() + this.getHeight());
             shot.render(batch);
         }
+        this.firing = false;
+    }
+
+    private boolean checkHit(Ship ship){
+        if(this.xpos == ship.getXpos()){
+            if(this.firedXpos == ship.getXpos()){
+                if(this.firing){
+                    System.out.println("hit");
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 }

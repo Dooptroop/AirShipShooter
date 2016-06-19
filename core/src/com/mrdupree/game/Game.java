@@ -5,13 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Matrix4;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
-	Ship ship1;
+	Texture player_img, enemy_img;
+	Ship ship1, enemy1;
 
 	//Android HW stuff
 //	boolean available = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
@@ -22,8 +20,9 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("starter_ship.png");
-		ship1 = new Ship(img,0,0);
+		player_img = new Texture("starter_ship.png");
+		enemy_img = new Texture("enemy_ship1.png");
+		ship1 = new Ship(player_img,0,0);
 	}
 
 	@Override
@@ -36,5 +35,6 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		ship1.render(batch);
 		batch.end();
+
 	}
 }
